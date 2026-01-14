@@ -16,7 +16,7 @@ public class HabitacionController {
         this.habitacionService = habitacionService;
     }
 
-    @PostMapping
+    @PostMapping ("/crear")
     public Habitacion crear(@RequestBody Habitacion habitacion) {
         return habitacionService.crear(habitacion);
     }

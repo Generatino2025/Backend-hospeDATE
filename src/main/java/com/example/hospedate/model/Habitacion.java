@@ -13,7 +13,8 @@ public class Habitacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_habitacion;
+    @Column(name = "id_habitacion")
+    private Long id;
 
     @NotBlank
     private String numero;
@@ -26,19 +27,19 @@ public class Habitacion {
 
     @NotNull
     private BigDecimal precio_por_noche;
-
-    @OneToMany(mappedBy = "id_habitacion")
-    private List<Reserva> reservas;
+//
+//    @OneToMany(mappedBy = "id_habitacion")
+//    private List<Reserva> reservas;
 
 
     // getters y setters
 
     public Long getId_habitacion() {
-        return id_habitacion;
+        return id;
     }
 
     public void setId_habitacion(Long id_habitacion) {
-        this.id_habitacion = id_habitacion;
+        this.id = id_habitacion;
     }
 
     public BigDecimal getPrecio_por_noche() {
@@ -73,12 +74,12 @@ public class Habitacion {
         this.tipo = tipo;
     }
 
-    public List<Reserva> getReservas() {
-        return reservas;
-    }
-
-    public void setReservas(List<Reserva> reservas) {
-        this.reservas = reservas;
-    }
+//    public List<Reserva> getReservas() {
+//        return reservas;
+//    }
+//
+//    public void setReservas(List<Reserva> reservas) {
+//        this.reservas = reservas;
+//    }
 }
 
