@@ -1,5 +1,7 @@
 package com.example.hospedate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +15,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Long id_usuario;
+    private Long idUsuario;
 
     @NotBlank
     private String nombre;
@@ -22,12 +24,13 @@ public class Usuario {
     private String apellido;
 
     @NotBlank
-    private String tipo_doc;
+    private String tipoDoc;
 
     @NotBlank
-    private String numero_doc;
+    private String numeroDoc;
 
     @Email
+    @Column(unique = true)
     @NotBlank
     private String correo;
 
@@ -39,7 +42,8 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
-    @OneToMany(mappedBy = "id_usuario")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Reserva> reservas;
 
     public enum Rol {
@@ -48,12 +52,21 @@ public class Usuario {
 
     // getters y setters
 
-    public Long getId_usuario() {
-        return id_usuario;
+
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getTipoDoc() {
+        return tipoDoc;
+    }
+
+    public void setTipoDoc(String tipoDoc) {
+        this.tipoDoc = tipoDoc;
     }
 
     public String getNombre() {
@@ -72,20 +85,12 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getTipo_doc() {
-        return tipo_doc;
+    public String getNumeroDoc() {
+        return numeroDoc;
     }
 
-    public void setTipo_doc(String tipo_doc) {
-        this.tipo_doc = tipo_doc;
-    }
-
-    public String getNumero_doc() {
-        return numero_doc;
-    }
-
-    public void setNumero_doc(String numero_doc) {
-        this.numero_doc = numero_doc;
+    public void setNumeroDoc(String numeroDoc) {
+        this.numeroDoc = numeroDoc;
     }
 
     public String getCorreo() {
@@ -125,4 +130,5 @@ public class Usuario {
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
+
 }

@@ -1,5 +1,7 @@
 package com.example.hospedate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,9 +15,10 @@ public class Habitacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_habitacion;
+    private Long idHabitacion;
 
     @NotBlank
+    @Column(unique = true)
     private String numero;
 
     @NotBlank
@@ -25,28 +28,30 @@ public class Habitacion {
     private Integer capacidad;
 
     @NotNull
-    private BigDecimal precio_por_noche;
+    private BigDecimal precioPorNoche;
 
-    @OneToMany(mappedBy = "id_habitacion")
+    @OneToMany(mappedBy = "habitacion", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Reserva> reservas;
 
 
     // getters y setters
 
-    public Long getId_habitacion() {
-        return id_habitacion;
+
+    public Long getIdHabitacion() {
+        return idHabitacion;
     }
 
-    public void setId_habitacion(Long id_habitacion) {
-        this.id_habitacion = id_habitacion;
+    public void setIdHabitacion(Long idHabitacion) {
+        this.idHabitacion = idHabitacion;
     }
 
-    public BigDecimal getPrecio_por_noche() {
-        return precio_por_noche;
+    public BigDecimal getPrecioPorNoche() {
+        return precioPorNoche;
     }
 
-    public void setPrecio_por_noche(BigDecimal precio_por_noche) {
-        this.precio_por_noche = precio_por_noche;
+    public void setPrecioPorNoche(BigDecimal precioPorNoche) {
+        this.precioPorNoche = precioPorNoche;
     }
 
     public Integer getCapacidad() {

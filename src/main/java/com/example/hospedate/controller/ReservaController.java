@@ -1,5 +1,7 @@
 package com.example.hospedate.controller;
 
+import com.example.hospedate.dto.ReservRequestDTO;
+import com.example.hospedate.dto.ServiciosAdcionalesDTO;
 import com.example.hospedate.model.Reserva;
 import com.example.hospedate.service.IReservaService;
 import jakarta.validation.Valid;
@@ -18,8 +20,8 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<Reserva> crear(@Valid @RequestBody Reserva reserva) {
-        return ResponseEntity.ok(reservaService.crear(reserva));
+    public Reserva crear(@Valid @RequestBody ReservRequestDTO dto) {
+        return reservaService.crear(dto);
     }
 
     @GetMapping
@@ -42,4 +44,12 @@ public class ReservaController {
         reservaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}/servicios")
+    public Reserva agregarServicios(
+            @PathVariable Long id,
+            @RequestBody ServiciosAdcionalesDTO dto) {
+        return reservaService.agregarServicios(id, dto.getIdsServicios());
+    }
+
 }
