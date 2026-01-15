@@ -50,7 +50,7 @@ public class HabitacionService implements IHabitacionService{
         existente.setNumero(habitacion.getNumero());
         existente.setTipo(habitacion.getTipo());
         existente.setCapacidad(habitacion.getCapacidad());
-        existente.setPrecio_por_noche(habitacion.getPrecio_por_noche());
+        existente.setPrecioPorNoche(habitacion.getPrecioPorNoche());
 
         return habitacionRepository.save(existente);
     }

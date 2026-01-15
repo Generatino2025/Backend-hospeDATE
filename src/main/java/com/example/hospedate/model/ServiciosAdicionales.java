@@ -11,11 +11,36 @@ import java.math.BigDecimal;
 public class ServiciosAdicionales {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_servicio;
+    @Column(name = "id_servicio")
+    private Long idServicio;
 
     @NotBlank
     private String nombre;
 
     @NotNull
     private BigDecimal precio;
+
+    public Long getIdServicio() {
+        return idServicio;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public BigDecimal getPrecio() {
+        return precio;
+    }
+
+    public void setIdServicio(Long idServicio) {
+        this.idServicio = idServicio;
+    }
+
+    public void setPrecio(BigDecimal precio) {
+        this.precio = precio;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }
