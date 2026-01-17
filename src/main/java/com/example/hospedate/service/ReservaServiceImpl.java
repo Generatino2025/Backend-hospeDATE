@@ -101,8 +101,10 @@ public class ReservaServiceImpl implements IReservaService{
         List<ServiciosAdicionales> servicios = serviciosAdicionalesRepository
                 .findAllById(idsServicios);
 
-        reserva.setServicios(servicios);
-        return reservaRepository.save(reserva);
+        reserva.getServicios().clear();
+        reserva.getServicios().addAll(servicios);
+
+        return reserva;
     }
 
 }

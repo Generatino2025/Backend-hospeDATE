@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,18 +20,18 @@ public class Reserva {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_usuario", nullable = false)
-    @JsonIgnore
+    @JsonManagedReference("usuario-reserva")
     private Usuario usuario;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_habitacion", nullable = false)
-    @JsonIgnore
+    @JsonManagedReference("habitacion-reserva")
     private Habitacion habitacion;
 
     // Reserva ES la dueña de la relación
     @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
-    @JsonIgnore
+    @JsonManagedReference("reserva-fecha")
     private FechaReserva fechaReserva;
 
     @Enumerated(EnumType.STRING)
@@ -49,6 +50,9 @@ public class Reserva {
             inverseJoinColumns = @JoinColumn(name = "id_servicio")
     )
     private List<ServiciosAdicionales> servicios;
+    {
+        servicios = new ArrayList<>();
+    }
 
     //  Enum (mejor en MAYÚSCULAS)
     public enum EstadoReserva {
