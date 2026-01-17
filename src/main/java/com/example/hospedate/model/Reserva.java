@@ -53,6 +53,9 @@ public class Reserva {
     {
         servicios = new ArrayList<>();
     }
+    @OneToOne(mappedBy = "reserva", cascade = CascadeType.ALL)
+    @JsonManagedReference("reserva-pago")
+    private Pago pago;
 
     //  Enum (mejor en MAYÚSCULAS)
     public enum EstadoReserva {
