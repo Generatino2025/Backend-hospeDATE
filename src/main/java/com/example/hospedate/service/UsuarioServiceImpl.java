@@ -30,9 +30,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public Usuario crear(Usuario usuario) {
-        if (usuarioRepository.existsByCorreo(usuario.getCorreo()) != null) {
+    /*    if (usuarioRepository.findByCorreo(usuario.getCorreo())) {
+            throw new RuntimeException("El correo ya existe");
+        }*/
+        Usuario user = usuarioRepository.findByCorreo(usuario.getCorreo())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
             throw new RuntimeException("El correo ya existe");
         }
+
         Usuario newUser = new Usuario();
         newUser.setCorreo(usuario.getCorreo());
         newUser.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
@@ -42,6 +49,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         newUser.setNumeroDoc(usuario.getNumeroDoc());
         newUser.setTelefono(usuario.getTelefono());
 
+        System.out.println(newUser);
         return usuarioRepository.save(newUser);
     }
 
@@ -72,11 +80,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     // Método de carga de usuario implementado desde UserDetailsService
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
-        Usuario user = usuarioRepository.existsByCorreo(correo);
-        if (user == null) {
-            throw new UsernameNotFoundException("Usuario no encontrado");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getCorreo(), user.getContrasena(), new ArrayList<>());
+        Usuario user = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getCorreo(),
+                user.getContrasena(),
+                new ArrayList<>()
+        );
     }
 }
 

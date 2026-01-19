@@ -2,6 +2,7 @@ package com.example.hospedate.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -32,7 +33,8 @@ public class Habitacion {
     private BigDecimal precioPorNoche;
 
     @OneToMany(mappedBy = "habitacion", cascade = CascadeType.ALL)
-    @JsonBackReference("habitacion-reserva")
+    //@JsonBackReference("habitacion-reserva")
+    @JsonIgnoreProperties("habitacion")
     private List<Reserva> reservas;
 
 

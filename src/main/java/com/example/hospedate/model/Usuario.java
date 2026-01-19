@@ -2,6 +2,7 @@ package com.example.hospedate.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -44,7 +45,8 @@ public class Usuario {
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    @JsonBackReference("usuario-reserva")
+   // @JsonBackReference("usuario-reserva")
+    @JsonIgnoreProperties("usuario")
     private List<Reserva> reservas;
 
     public enum Rol {

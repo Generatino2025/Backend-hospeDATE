@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/hospedate/usuarios")
 public class UsuarioController {
+
     @Autowired
     private UsuarioServiceImpl userService;
 
@@ -29,10 +30,11 @@ public class UsuarioController {
 
     private final IUsuarioService usuarioService;
 
-
-    public UsuarioController(IUsuarioService usuarioService, UsuarioServiceImpl userService) {
+    public UsuarioController(IUsuarioService usuarioService, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, UsuarioServiceImpl userService) {
         this.usuarioService = usuarioService;
-
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+        this.userService = userService;
     }
 
     @PostMapping
