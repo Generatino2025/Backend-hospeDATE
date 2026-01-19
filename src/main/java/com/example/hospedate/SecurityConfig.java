@@ -1,6 +1,6 @@
 package com.example.hospedate;
 
-import com.JWTClase.JWTLogin.service.UserService;
+import com.example.hospedate.service.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     @Autowired
     @Lazy
-    private UserService userService;
+    private UsuarioServiceImpl userService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ← CORS PRIMERO
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/loginConDTO").permitAll()
+                        .requestMatchers("/hospedate/usuarios/login", "/hospedate/usuarios", "/hospedate/usuarios/loginConDTO").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));

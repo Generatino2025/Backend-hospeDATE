@@ -51,6 +51,23 @@ public class Usuario {
         admin, cliente
     }
 
+        public Usuario(){
+
+        }
+
+    public Usuario(Long idUsuario, String nombre, String apellido, String tipoDoc, String numeroDoc, String correo, String telefono, String contrasena, Rol rol, List<Reserva> reservas) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.tipoDoc = tipoDoc;
+        this.numeroDoc = numeroDoc;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.contrasena = contrasena;
+        this.rol = rol;
+        this.reservas = reservas;
+    }
+
     // getters y setters
 
 
