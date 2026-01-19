@@ -2,6 +2,7 @@ package com.example.hospedate.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -44,11 +45,29 @@ public class Usuario {
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    @JsonBackReference("usuario-reserva")
+   // @JsonBackReference("usuario-reserva")
+    @JsonIgnoreProperties("usuario")
     private List<Reserva> reservas;
 
     public enum Rol {
         admin, cliente
+    }
+
+        public Usuario(){
+
+        }
+
+    public Usuario(Long idUsuario, String nombre, String apellido, String tipoDoc, String numeroDoc, String correo, String telefono, String contrasena, Rol rol, List<Reserva> reservas) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.tipoDoc = tipoDoc;
+        this.numeroDoc = numeroDoc;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.contrasena = contrasena;
+        this.rol = rol;
+        this.reservas = reservas;
     }
 
     // getters y setters
