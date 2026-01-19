@@ -1,8 +1,6 @@
 package com.example.hospedate.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,9 +23,11 @@ public class Usuario {
     private String apellido;
 
     @NotBlank
+    @JsonProperty("tipo_doc")
     private String tipoDoc;
 
     @NotBlank
+    @JsonProperty("numero_doc")
     private String numeroDoc;
 
     @Email
@@ -37,18 +37,38 @@ public class Usuario {
 
     private String telefono;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank
     private String contrasena;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    @JsonBackReference("usuario-reserva")
+   // @JsonBackReference("usuario-reserva")
+    @JsonIgnoreProperties("usuario")
     private List<Reserva> reservas;
 
     public enum Rol {
-        admin, cliente
+        ADMIN, CLIENTE
+    }
+
+        public Usuario(){
+
+        }
+
+    public Usuario(Long idUsuario, String nombre, String apellido, String tipoDoc, String numeroDoc, String correo, String telefono, String contrasena, Rol rol, List<Reserva> reservas) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.tipoDoc = tipoDoc;
+        this.numeroDoc = numeroDoc;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.contrasena = contrasena;
+        this.rol = rol;
+        this.reservas = reservas;
     }
 
     // getters y setters
@@ -65,6 +85,7 @@ public class Usuario {
     public String getTipoDoc() {
         return tipoDoc;
     }
+
 
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;

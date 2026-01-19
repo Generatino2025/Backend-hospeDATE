@@ -2,6 +2,7 @@ package com.example.hospedate.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -20,12 +21,14 @@ public class Reserva {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_usuario", nullable = false)
-    @JsonManagedReference("usuario-reserva")
+    //@JsonManagedReference("usuario-reserva")
+    @JsonIgnoreProperties("reservas")
     private Usuario usuario;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_habitacion", nullable = false)
-    @JsonManagedReference("habitacion-reserva")
+    //@JsonManagedReference("habitacion-reserva")
+    @JsonIgnoreProperties("reservas")
     private Habitacion habitacion;
 
     // Reserva ES la dueña de la relación
