@@ -1,9 +1,6 @@
 package com.example.hospedate.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,9 +23,11 @@ public class Usuario {
     private String apellido;
 
     @NotBlank
+    @JsonProperty("tipo_doc")
     private String tipoDoc;
 
     @NotBlank
+    @JsonProperty("numero_doc")
     private String numeroDoc;
 
     @Email
@@ -38,10 +37,12 @@ public class Usuario {
 
     private String telefono;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank
     private String contrasena;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -50,7 +51,7 @@ public class Usuario {
     private List<Reserva> reservas;
 
     public enum Rol {
-        admin, cliente
+        ADMIN, CLIENTE
     }
 
         public Usuario(){
@@ -84,6 +85,7 @@ public class Usuario {
     public String getTipoDoc() {
         return tipoDoc;
     }
+
 
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;

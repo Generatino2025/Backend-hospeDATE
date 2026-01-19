@@ -10,4 +10,6 @@ public interface IUsuarioService {
     Usuario buscarPorId(Long id);
     Usuario actualizar(Long id, Usuario usuario);
     void eliminar(Long id);
+    Usuario buscarPorCorreo(String correo);
+
 }
