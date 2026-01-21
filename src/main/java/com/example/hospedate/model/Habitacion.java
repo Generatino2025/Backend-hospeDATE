@@ -22,6 +22,7 @@ public class Habitacion {
 
     @NotBlank
     @JoinColumn(name = "url_foto", nullable = false)
+    @JsonProperty("url_foto")
     private String urlFoto;
 
     @NotBlank
