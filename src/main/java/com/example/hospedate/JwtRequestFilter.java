@@ -53,8 +53,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
         String method = request.getMethod();
 
-        return path.equals("/hospedate/usuarios/loginConDTO")
-                || path.equals("/hospedate/usuarios")
+        return path.equals("/auth/login")
+                || path.equals("auth/register")
                 || (path.equals("/habitaciones") && method.equals("GET"));
     }
 
