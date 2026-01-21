@@ -85,14 +85,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
         Usuario user = usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        //Para autenticar nuestros roles admin y cliente que viene de enum
-     /*   var authorities = List.of(
-                new SimpleGrantedAuthority("ROLE_" + user.getRol().name().toUpperCase())
-        );*/
-
         List<SimpleGrantedAuthority> authorities = List.of(
                 new SimpleGrantedAuthority("ROLE_" + user.getRol().name().toUpperCase())
         );
+
         return new org.springframework.security.core.userdetails.User(
                 user.getCorreo(),
                 user.getContrasena(),

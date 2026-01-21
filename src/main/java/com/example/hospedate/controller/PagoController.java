@@ -15,13 +15,13 @@ public class PagoController {
     public PagoController(PagoServiceImpl pagoService) {
         this.pagoService = pagoService;
     }
-    @PreAuthorize("hasRole('CLIENTE'')")
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
     @PostMapping
     public ResponseEntity<PagoResponseDTO> pagar(@RequestBody PagoRequestDTO dto) {
         return ResponseEntity.ok(pagoService.registrarPago(dto));
     }
 
-    @PreAuthorize("hasRole('CLIENTE'')")
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
     @GetMapping("/reserva/{id}")
     public ResponseEntity<PagoResponseDTO> obtener(@PathVariable Long id) {
         return ResponseEntity.ok(pagoService.obtenerPorReserva(id));

@@ -28,7 +28,6 @@ public class HabitacionController {
             @ApiResponse(responseCode = "200", description = "Creada la habitación"),
             @ApiResponse(responseCode = "401", description = "Error en el ingreso de los datos")
     })
-
     @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
     @PostMapping
     public Habitacion crear(@RequestBody Habitacion habitacion) {
