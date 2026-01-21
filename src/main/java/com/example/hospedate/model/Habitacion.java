@@ -1,9 +1,6 @@
 package com.example.hospedate.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +19,11 @@ public class Habitacion {
     @NotBlank
     @Column(unique = true)
     private String numero;
+
+    @NotBlank
+    @JoinColumn(name = "url_foto", nullable = false)
+    @JsonProperty("url_foto")
+    private String urlFoto;
 
     @NotBlank
     private String tipo;
@@ -87,6 +89,13 @@ public class Habitacion {
 
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
+    }
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 }
 

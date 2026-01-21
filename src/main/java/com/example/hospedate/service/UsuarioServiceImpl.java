@@ -4,6 +4,7 @@ import com.example.hospedate.exception.ResourceNotFoundException;
 import com.example.hospedate.model.Usuario;
 import com.example.hospedate.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,12 +31,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public Usuario crear(Usuario usuario) {
-    /*    if (usuarioRepository.findByCorreo(usuario.getCorreo())) {
-            throw new RuntimeException("El correo ya existe");
-        }*/
-        Usuario user = usuarioRepository.findByCorreo(usuario.getCorreo())
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
         if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
             throw new RuntimeException("El correo ya existe");
         }
@@ -49,6 +44,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         newUser.setNumeroDoc(usuario.getNumeroDoc());
         newUser.setTelefono(usuario.getTelefono());
         newUser.setRol(usuario.getRol());
+
         System.out.println(newUser);
         return usuarioRepository.save(newUser);
     }
@@ -78,15 +74,26 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuarioRepository.delete(buscarPorId(id));
     }
 
+    public Usuario buscarPorCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    }
+
     // Método de carga de usuario implementado desde UserDetailsService
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
+
         Usuario user = usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        List<SimpleGrantedAuthority> authorities = List.of(
+                new SimpleGrantedAuthority("ROLE_" + user.getRol().name().toUpperCase())
+        );
 
         return new org.springframework.security.core.userdetails.User(
                 user.getCorreo(),
                 user.getContrasena(),
-                new ArrayList<>()
+              //  new ArrayList<>()
+                authorities
         );
     }
 }
