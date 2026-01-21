@@ -48,7 +48,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         newUser.setTipoDoc(usuario.getTipoDoc());
         newUser.setNumeroDoc(usuario.getNumeroDoc());
         newUser.setTelefono(usuario.getTelefono());
-
+        newUser.setRol(usuario.getRol());
         System.out.println(newUser);
         return usuarioRepository.save(newUser);
     }
