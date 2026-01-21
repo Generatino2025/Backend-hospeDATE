@@ -57,7 +57,7 @@ public class SecurityConfig {
                         //----Públicas
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/register").permitAll()
-                        .requestMatchers("/habitaciones/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/habitaciones").permitAll()
                         .anyRequest().authenticated()
                 )
 
