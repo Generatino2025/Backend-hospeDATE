@@ -40,6 +40,7 @@ public class HabitacionController {
         return habitacionService.listar();
     }
 
+
     @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
     @GetMapping("/{id}")
     public Habitacion buscar(@PathVariable Long id) {
