@@ -85,4 +85,46 @@ public class PagoServiceImpl implements IPagoService {
         return map(pago);
     }
 
+    @Override
+    public PagoResponseDTO actualizarPago(Long idPago, PagoRequestDTO dto) {
+
+        Pago pago = pagoRepo.findById(idPago)
+                .orElseThrow(() -> new RuntimeException("Pago no encontrado"));
+
+        Reserva reserva = pago.getReserva();
+
+        // Recalcular total real desde backend
+        BigDecimal total = calcularTotal(reserva);
+
+        BigDecimal montoPagado = dto.getMontoPagado();
+        BigDecimal saldo = total.subtract(montoPagado);
+
+        if (montoPagado.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("El monto pagado no puede ser negativo");
+        }
+
+        if (montoPagado.compareTo(total) > 0) {
+            throw new RuntimeException("El monto pagado no puede ser mayor al total");
+        }
+
+        pago.setMontoTotal(total);
+        pago.setMontoPagado(montoPagado);
+        pago.setSaldoPendiente(saldo);
+
+        if (dto.getMetodo() != null) {
+            pago.setMetodo(Pago.MetodoPago.valueOf(dto.getMetodo()));
+        }
+
+        pagoRepo.save(pago);
+
+        // Actualizar estado reserva
+        if (saldo.compareTo(BigDecimal.ZERO) <= 0) {
+            reserva.setEstado(Reserva.EstadoReserva.CONFIRMADA);
+        } else {
+            reserva.setEstado(Reserva.EstadoReserva.ACTIVA);
+        }
+
+        return map(pago);
+    }
+
 }
