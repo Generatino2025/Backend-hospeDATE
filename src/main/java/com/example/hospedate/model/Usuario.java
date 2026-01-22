@@ -37,6 +37,10 @@ public class Usuario {
 
     private String telefono;
 
+    @Column(columnDefinition = "LONGTEXT")
+    private String foto;
+
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank
     private String contrasena;
@@ -137,6 +141,10 @@ public class Usuario {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public String getFoto() {return foto;}
+    public void setFoto(String foto) {this.foto = foto;}
+
 
     public Rol getRol() {
         return rol;

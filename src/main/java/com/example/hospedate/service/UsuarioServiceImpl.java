@@ -66,6 +66,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         existente.setNombre(usuario.getNombre());
         existente.setApellido(usuario.getApellido());
         existente.setTelefono(usuario.getTelefono());
+        existente.setFoto(usuario.getFoto());
         return usuarioRepository.save(existente);
     }
 
