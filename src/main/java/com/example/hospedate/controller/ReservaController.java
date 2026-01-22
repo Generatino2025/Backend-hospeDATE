@@ -1,6 +1,7 @@
 package com.example.hospedate.controller;
 
 import com.example.hospedate.dto.ReservRequestDTO;
+import com.example.hospedate.dto.ReservaUpdateDTO;
 import com.example.hospedate.dto.ServiciosAdcionalesDTO;
 import com.example.hospedate.model.Reserva;
 import com.example.hospedate.service.IReservaService;
@@ -39,8 +40,8 @@ public class ReservaController {
 
     @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
     @PutMapping("/{id}")
-    public Reserva actualizar(@PathVariable Long id, @Valid @RequestBody Reserva reserva) {
-        return reservaService.actualizar(id, reserva);
+    public Reserva actualizar(@PathVariable Long id, @Valid @RequestBody ReservaUpdateDTO dto) {
+        return reservaService.actualizar(id, dto);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")

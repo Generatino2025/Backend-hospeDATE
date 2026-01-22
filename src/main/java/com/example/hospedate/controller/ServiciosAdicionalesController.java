@@ -23,7 +23,7 @@ public class ServiciosAdicionalesController {
         return service.crear(servicio);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
     @GetMapping
     public List<ServiciosAdicionales> listar() {
         return service.listar();
