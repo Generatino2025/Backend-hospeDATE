@@ -1,7 +1,6 @@
 package com.example.hospedate.controller;
 
 import com.example.hospedate.JwtUtil;
-import com.example.hospedate.api.ApiResponse;
 import com.example.hospedate.dto.UserDTO;
 import com.example.hospedate.model.Usuario;
 import com.example.hospedate.service.IUsuarioService;
