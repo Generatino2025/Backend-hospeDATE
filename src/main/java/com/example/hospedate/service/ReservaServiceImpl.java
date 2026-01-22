@@ -1,6 +1,7 @@
 package com.example.hospedate.service;
 
 import com.example.hospedate.dto.ReservRequestDTO;
+import com.example.hospedate.dto.ReservaUpdateDTO;
 import com.example.hospedate.exception.ResourceNotFoundException;
 import com.example.hospedate.model.*;
 import com.example.hospedate.repository.HabitacionRepository;
@@ -8,6 +9,7 @@ import com.example.hospedate.repository.ReservaRepository;
 import com.example.hospedate.repository.ServiciosAdicionalesRepository;
 import com.example.hospedate.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
@@ -81,12 +83,50 @@ public class ReservaServiceImpl implements IReservaService{
     }
 
     @Override
-    public Reserva actualizar(Long id, Reserva reserva) {
-        Reserva existente = buscarPorId(id);
-        existente.setEstado(reserva.getEstado());
-        existente.setNotas(reserva.getNotas());
-        return reservaRepository.save(existente);
+    public Reserva actualizar(Long id, @Valid ReservaUpdateDTO data) {
+        Reserva reserva = buscarPorId(id);
+
+        // --- estado ---
+        if (data.getEstado() != null) {
+            reserva.setEstado(data.getEstado());
+        }
+
+        // --- notas ---
+        if (data.getNotas() != null) {
+            reserva.setNotas(data.getNotas());
+        }
+
+        // --- fechas ---
+        if (data.getCheckIn() != null || data.getCheckOut() != null) {
+
+            FechaReserva fecha = reserva.getFechaReserva();
+
+            if (fecha == null) {
+                fecha = new FechaReserva();
+                reserva.setFechaReserva(fecha);
+            }
+
+            if (data.getCheckIn() != null) {
+                fecha.setCheck_in(data.getCheckIn());
+            }
+
+            if (data.getCheckOut() != null) {
+                fecha.setCheck_out(data.getCheckOut());
+            }
+
+            if (fecha.getCheck_in() != null && fecha.getCheck_out() != null) {
+                long noches = ChronoUnit.DAYS.between(
+                        fecha.getCheck_in().toLocalDate(),
+                        fecha.getCheck_out().toLocalDate()
+                );
+                fecha.setNoches((int) noches);
+            }
+        }
+
+        return reservaRepository.save(reserva);
     }
+
+
 
     @Override
     public void eliminar(Long id) {

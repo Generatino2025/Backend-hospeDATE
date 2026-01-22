@@ -46,7 +46,6 @@ public class HabitacionService implements IHabitacionService{
     @Override
     public Habitacion actualizar(Long id, Habitacion habitacion) {
         Habitacion existente = buscarPorId(id);
-
         existente.setNumero(habitacion.getNumero());
         existente.setTipo(habitacion.getTipo());
         existente.setCapacidad(habitacion.getCapacidad());
