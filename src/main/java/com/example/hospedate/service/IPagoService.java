@@ -7,4 +7,6 @@ public interface IPagoService {
     PagoResponseDTO registrarPago(PagoRequestDTO dto);
 
     PagoResponseDTO obtenerPorReserva(Long idReserva);
+    PagoResponseDTO actualizarPago(Long idPago, PagoRequestDTO dto);
+
 }

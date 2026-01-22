@@ -26,4 +26,14 @@ public class PagoController {
     public ResponseEntity<PagoResponseDTO> obtener(@PathVariable Long id) {
         return ResponseEntity.ok(pagoService.obtenerPorReserva(id));
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
+    @PutMapping("/{idPago}")
+    public ResponseEntity<PagoResponseDTO> actualizarPago(
+            @PathVariable Long idPago,
+            @RequestBody PagoRequestDTO dto
+    ) {
+        return ResponseEntity.ok(pagoService.actualizarPago(idPago, dto));
+    }
+
 }
