@@ -38,6 +38,7 @@ public class SecurityConfig {
     @Lazy
     private UsuarioServiceImpl userService;
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -47,6 +48,8 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(auth -> auth
+                        // PERMITIR PREFLIGHT
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // --- SWAGGER ---
                         .requestMatchers(
                                 "/swagger-ui/**",

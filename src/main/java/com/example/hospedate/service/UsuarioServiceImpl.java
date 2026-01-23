@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
     public Usuario buscarPorCorreo(String correo) {
         return usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    }
+
+    @Override
+    public Usuario actualizando(Long id, String nombre, String apellido, String correo, String telefono, MultipartFile foto) {
+        return null;
     }
 
     // Método de carga de usuario implementado desde UserDetailsService
