@@ -8,11 +8,13 @@ import com.example.hospedate.service.UsuarioServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,11 +61,24 @@ public class UsuarioController {
         return usuarioService.buscarPorId(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
-    @PutMapping("/{id}")
-    public Usuario actualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return usuarioService.actualizar(id, usuario);
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CLIENTE')")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Usuario> actualizarPerfil(
+            @PathVariable Long id,
+            @RequestParam String nombre,
+            @RequestParam String apellido,
+            @RequestParam String correo,
+            @RequestParam String telefono,
+            @RequestPart(required = false) MultipartFile foto
+    ) {
+        Usuario actualizado = usuarioService.actualizando(
+                id, nombre, apellido, correo, telefono, foto
+        );
+
+        return ResponseEntity.ok(actualizado);
     }
+
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
